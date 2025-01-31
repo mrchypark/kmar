@@ -1,11 +1,20 @@
 Package: kmar
-Title: What the Package Does (One Line, Title Case)
+Title: Korea Meteorological Administration API For R
 Version: 0.0.0.9000
-Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+Authors@R: person(given = "Chanyub", 
+                  family = "Park", 
+                  role = c("aut","cre"), 
+                  email = "mrchypark@gmail.com", 
+                  comment = c(ORCID = "0000-0001-6474-2570")
+                  )
+Description: Provides a user-friendly interface to access and retrieve data 
+    from the Korea Meteorological Administration (KMA) API Hub. 
+    This package simplifies API authentication, request construction, 
+    and data parsing, allowing users to easily obtain real-time and 
+    historical weather data, forecasts, and climate information 
+    for various locations in South Korea. 
+    Designed for researchers, developers, and analysts working with meteorological data.
+License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.0.0
