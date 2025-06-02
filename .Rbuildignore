@@ -1,5 +1,14 @@
 ^renv$
 ^renv\.lock$
-^kmar\.Rproj$
+^.*\.Rproj$
 ^\.Rproj\.user$
-^LICENSE\.md$
+^README\.Rmd$
+^CONTRIBUTING\.md$
+^CONDUCT\.md$
+^NEWS\.md$
+^cran-comments\.md$
+^\.github$
+^\.gitignore$
+^docs$
+^devhistory\.R$
+^pkgdown$
