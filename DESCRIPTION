@@ -3,8 +3,7 @@ Type: Package
 Title: R Client for Korea Meteorological Administration (KMA) API
 Version: 0.1.0
 Date: $(date +%Y-%m-%d)
-Author: Jules @ Google (AI Agent)
-Maintainer: Your Name <your.email@example.com>
+Authors@R: person(given = "Chanyub", family = "Park", role = c("aut","cre"), email = "mrchypark@gmail.com", comment = c(ORCID = "0000-0001-6474-2570"))
 Description: Provides functions to access various meteorological data from the Korea Meteorological Administration (KMA) API Hub (https://apihub.kma.go.kr/).
 License: MIT + file LICENSE
 Encoding: UTF-8
