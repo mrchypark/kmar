@@ -1,4 +1,4 @@
-# KMAapiR: R Client for KMA API
+# kmar: R Client for KMA API
 
 R client package for accessing data from the Korea Meteorological Administration (KMA) API Hub.
 
@@ -6,7 +6,7 @@ R client package for accessing data from the Korea Meteorological Administration
 
 ```R
 # (Installation instructions will be added once the package is more developed)
-# devtools::install_github("your-username/KMAapiR") 
+# devtools::install_github("mrchypark/kmar") 
 ```
 
 ## API Key
