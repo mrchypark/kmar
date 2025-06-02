@@ -23,7 +23,7 @@ test_that("set_kma_auth_key and get_kma_auth_key work correctly", {
   # Test environment variable KMA_API_KEY override
   Sys.setenv(KMA_API_KEY = "envkey456")
   expect_equal(KMAapiR:::get_kma_auth_key(), "envkey456") # Env var should take precedence
-
+  
   # Clear KMA_API_KEY, should revert to session key
   Sys.unsetenv("KMA_API_KEY")
   expect_equal(KMAapiR:::get_kma_auth_key(), "testkey123")
@@ -62,13 +62,13 @@ test_that("make_kma_request prepares parameters correctly (conceptual)", {
     # For now, we just ensure that calling it (if it were not for the actual HTTP call)
     # would try to resolve the auth key and process params without error.
     # The real test for this function would mock httr::GET itself.
-
+    
     # To make this test runnable without actual network calls and without full httr mocking:
     # We can temporarily mock httr::GET within this test scope using mockery or a simple redefinition.
     # However, for this subtask, we'll assume this conceptual check is sufficient.
     # The main goal is to lay out the function and its basic tests.
   })
-
+  
   # Test input validation for make_kma_request
   expect_error(KMAapiR:::make_kma_request(123), "base_url must be a non-empty character string.")
   expect_error(KMAapiR:::make_kma_request("http://example.com", params = "not-a-list"), "params must be a list.")
@@ -78,7 +78,7 @@ test_that("make_kma_request prepares parameters correctly (conceptual)", {
 
 test_that("get_kma_auth_key stops if no key is available", {
   remove_auth_key_env()
-  expect_error(KMAapiR:::get_kma_auth_key(),
+  expect_error(KMAapiR:::get_kma_auth_key(), 
                paste0("KMA API authentication key not found. \n",
                       "Please set it using set_kma_auth_key() or ",
                       "by setting the KMA_API_KEY environment variable."))

@@ -6,7 +6,7 @@ R client package for accessing data from the Korea Meteorological Administration
 
 ```R
 # (Installation instructions will be added once the package is more developed)
-# devtools::install_github("your-username/KMAapiR")
+# devtools::install_github("your-username/KMAapiR") 
 ```
 
 ## API Key

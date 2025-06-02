@@ -12,7 +12,7 @@ if (!exists("with_mock_auth", mode="function")) {
       # without the package being fully loaded in the test environment.
       old_key_env_var <- Sys.getenv("KMA_API_KEY", unset = NA)
       Sys.setenv(KMA_API_KEY = "testmockkey_marine_obs_fallback") # Unique key for fallback
-
+      
       # Attempt to use set_kma_auth_key if available (e.g. if package is loaded)
       # This part might not always work as expected in all test environments if KMAapiR isn't loaded
       # such that its namespace and internal environment .kma_api_env are properly accessible.
@@ -50,7 +50,7 @@ if (!exists("with_mock_auth", mode="function")) {
             }
         }
       }, add = TRUE)
-
+      
       eval.parent(substitute(expr))
     }
 }
@@ -59,7 +59,7 @@ if (!exists("with_mock_auth", mode="function")) {
 test_that("get_marine_comprehensive_obs input validation and structure", {
   expect_error(KMAapiR::get_marine_comprehensive_obs(tm = "20231027"), "Parameter 'tm' must be in YYYYMMDDHHMM format.")
   with_mock_auth({
-    mockery::stub(KMAapiR::get_marine_comprehensive_obs, 'make_kma_request',
+    mockery::stub(KMAapiR::get_marine_comprehensive_obs, 'make_kma_request', 
                   function(base_url, params) {
                     expect_equal(base_url, "https://apihub.kma.go.kr/api/typ01/url/sea_obs.php")
                     expect_equal(params$tm, "202301010000")
@@ -108,8 +108,8 @@ test_marine_xml_json_service <- function(func_name_str, base_url_expected, requi
   # Test with XML
   with_mock_auth({
     call_args_xml <- c(list(page_no = 1, num_of_rows = 10, data_type = "XML"), required_params, optional_params)
-
-    mockery::stub(where = qualified_func_name, what = 'make_kma_request',
+    
+    mockery::stub(where = qualified_func_name, what = 'make_kma_request', 
                   how = function(base_url, params) {
                     expect_equal(base_url, base_url_expected)
                     expect_equal(params$dataType, "XML")
@@ -135,22 +135,22 @@ test_marine_xml_json_service <- function(func_name_str, base_url_expected, requi
                   })
     expect_equal(do.call(target_func, call_args_json), "{\"json\":\"Mocked Marine JSON\"}")
   })
-
+  
   # Test input validation for common parameters
   call_args_invalid_dt <- c(list(page_no = 1, num_of_rows = 10, data_type = "TXT"), required_params, optional_params)
   expect_error(do.call(target_func, call_args_invalid_dt), "'data_type' must be 'XML' or 'JSON'.")
-
+  
   # Create a base list for testing invalid year/month to avoid modifying required_params directly in loop
   base_test_args <- c(list(page_no = 1, num_of_rows = 10, data_type = "XML"), optional_params)
 
   if("year" %in% names(required_params)) {
-    invalid_year_args <- c(base_test_args, required_params)
-    invalid_year_args$year <- "23"
+    invalid_year_args <- c(base_test_args, required_params) 
+    invalid_year_args$year <- "23" 
     expect_error(do.call(target_func, invalid_year_args), "'year' must be in YYYY format.")
   }
   if("month" %in% names(required_params)) {
-    invalid_month_args <- c(base_test_args, required_params)
-    invalid_month_args$month <- "1"
+    invalid_month_args <- c(base_test_args, required_params) 
+    invalid_month_args$month <- "1" 
     if (!("year" %in% names(invalid_month_args) && invalid_month_args$year == "23")) { # Avoid re-testing year error if already invalid
         if (!("year" %in% names(invalid_month_args))) invalid_month_args$year <- "2023" # Add valid year if not present
     }
@@ -235,7 +235,7 @@ test_that("get_marine_spatial_chart works and returns raw content", {
                     # Mock a response object with raw content
                     return(structure(list(status_code = 200, content = as.raw(c(0x0A, 0x0B, 0x0C))), class = "response"))
                   })
-
+    
     result <- KMAapiR::get_marine_spatial_chart(
         proj="test_proj", start_x="X", start_y="Y", end_x="X", end_y="Y", zoom_lvl="0",
         tm="202301010000", tm_st="202301010000", map_type="test_map", grid="G", itv="I",

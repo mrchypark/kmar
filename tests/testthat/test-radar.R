@@ -3,8 +3,8 @@ library(testthat)
 if (!exists("with_mock_auth", mode="function")) {
     with_mock_auth <- function(expr) {
       old_key_env_var <- Sys.getenv("KMA_API_KEY", unset = NA)
-      Sys.setenv(KMA_API_KEY = "testmockkey_radar_fallback")
-
+      Sys.setenv(KMA_API_KEY = "testmockkey_radar_fallback") 
+      
       original_session_key <- NULL
       session_key_was_present <- FALSE
       if (exists("set_kma_auth_key", where = "package:KMAapiR", mode="function") &&
@@ -35,7 +35,7 @@ if (!exists("with_mock_auth", mode="function")) {
             }
         }
       }, add = TRUE)
-
+      
       eval.parent(substitute(expr))
     }
 }
@@ -43,7 +43,7 @@ if (!exists("with_mock_auth", mode="function")) {
 test_that("get_radar_station_file_list works", {
   expect_error(KMAapiR::get_radar_station_file_list(tm="2023", stn="KWK", rdr="HSR"), "Parameter 'tm' must be in YYYYMMDD format.")
   with_mock_auth({
-    mockery::stub(KMAapiR::get_radar_station_file_list, 'make_kma_request',
+    mockery::stub(KMAapiR::get_radar_station_file_list, 'make_kma_request', 
                   function(base_url, params) {
                     expect_equal(base_url, "https://apihub.kma.go.kr/api/typ01/url/rdr_stn_file_list.php")
                     expect_equal(params$filter, "test")
@@ -57,7 +57,7 @@ test_that("get_radar_station_file_list works", {
 test_that("get_radar_composite_file_list works", {
   expect_error(KMAapiR::get_radar_composite_file_list(tm="2023111", cmp="HSR"), "Parameter 'tm' must be in YYYYMMDD format.")
   with_mock_auth({
-    mockery::stub(KMAapiR::get_radar_composite_file_list, 'make_kma_request',
+    mockery::stub(KMAapiR::get_radar_composite_file_list, 'make_kma_request', 
                   function(base_url, params) {
                     expect_equal(base_url, "https://apihub.kma.go.kr/api/typ01/url/rdr_cmp_file_list.php")
                     expect_equal(params$authKey, "testmockkey_radar_fallback")
@@ -70,7 +70,7 @@ test_that("get_radar_composite_file_list works", {
 test_that("get_radar_composite_info works", {
    expect_error(KMAapiR::get_radar_composite_info(tm="2023", cmp="HSR", qcd="MSK"), "Parameter 'tm' must be in YYYYMMDDHH\\(MM\\) format.")
   with_mock_auth({
-    mockery::stub(KMAapiR::get_radar_composite_info, 'make_kma_request',
+    mockery::stub(KMAapiR::get_radar_composite_info, 'make_kma_request', 
                   function(base_url, params) {
                     expect_equal(base_url, "https://apihub.kma.go.kr/api/typ01/cgi-bin/url/nph-rdr_cmp_inf")
                     expect_equal(params$map, "HR") # API uses 'map'
@@ -87,7 +87,7 @@ test_that("get_radar_composite_data works for ASCII and Binary", {
 
   # Test ASCII
   with_mock_auth({
-    mockery::stub(KMAapiR::get_radar_composite_data, 'make_kma_request',
+    mockery::stub(KMAapiR::get_radar_composite_data, 'make_kma_request', 
                   function(base_url, params) {
                     expect_equal(base_url, "https://apihub.kma.go.kr/api/typ01/cgi-bin/url/nph-rdr_cmp1_api")
                     expect_equal(params$disp, "A")
@@ -99,7 +99,7 @@ test_that("get_radar_composite_data works for ASCII and Binary", {
 
   # Test Binary
   with_mock_auth({
-    mockery::stub(KMAapiR::get_radar_composite_data, 'make_kma_request',
+    mockery::stub(KMAapiR::get_radar_composite_data, 'make_kma_request', 
                   function(base_url, params) {
                     expect_equal(base_url, "https://apihub.kma.go.kr/api/typ01/cgi-bin/url/nph-rdr_cmp1_api")
                     expect_equal(params$disp, "B")

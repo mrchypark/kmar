@@ -1,13 +1,13 @@
 library(testthat)
-# Assuming KMAapiR is loaded and with_mock_auth is available
+# Assuming KMAapiR is loaded and with_mock_auth is available 
 # (e.g., from a helper file or defined locally if needed for isolated runs)
 
 if (!exists("with_mock_auth", mode="function")) {
     with_mock_auth <- function(expr) {
       # This simplified version primarily relies on Sys.setenv for get_kma_auth_key behavior.
       old_key_env_var <- Sys.getenv("KMA_API_KEY", unset = NA)
-      Sys.setenv(KMA_API_KEY = "testmockkey_upper_air_fallback")
-
+      Sys.setenv(KMA_API_KEY = "testmockkey_upper_air_fallback") 
+      
       original_session_key <- NULL
       session_key_was_present <- FALSE
       if (exists("set_kma_auth_key", where = "package:KMAapiR", mode="function") &&
@@ -38,7 +38,7 @@ if (!exists("with_mock_auth", mode="function")) {
             }
         }
       }, add = TRUE)
-
+      
       eval.parent(substitute(expr))
     }
 }
@@ -46,7 +46,7 @@ if (!exists("with_mock_auth", mode="function")) {
 test_that("get_upper_air_temp_data input validation and structure", {
   expect_error(KMAapiR::get_upper_air_temp_data(tm = "20231027"), "Parameter 'tm' must be in YYYYMMDDHH\\(MM\\) format \\(UTC\\).")
   with_mock_auth({
-    mockery::stub(KMAapiR::get_upper_air_temp_data, 'make_kma_request',
+    mockery::stub(KMAapiR::get_upper_air_temp_data, 'make_kma_request', 
                   function(base_url, params) {
                     expect_equal(base_url, "https://apihub.kma.go.kr/api/typ01/url/upp_temp.php")
                     expect_equal(params$tm, "202301010000")
@@ -60,7 +60,7 @@ test_that("get_upper_air_temp_data input validation and structure", {
 test_that("get_upper_air_sea_kship_temp_data works", {
   expect_error(KMAapiR::get_upper_air_sea_kship_temp_data(tm = "2023"), "Parameter 'tm' must be in YYYYMMDDHH\\(MM\\) format \\(UTC\\).")
   with_mock_auth({
-    mockery::stub(KMAapiR::get_upper_air_sea_kship_temp_data, 'make_kma_request',
+    mockery::stub(KMAapiR::get_upper_air_sea_kship_temp_data, 'make_kma_request', 
                   function(base_url, params) {
                     expect_equal(base_url, "https://apihub.kma.go.kr/api/typ01/url/sea_kship_temp.php")
                     expect_equal(params$authKey, "testmockkey_upper_air_fallback")
@@ -73,7 +73,7 @@ test_that("get_upper_air_sea_kship_temp_data works", {
 test_that("get_upper_air_mobile_temp_data works", {
   expect_error(KMAapiR::get_upper_air_mobile_temp_data(tm = "2023010112000"), "Parameter 'tm' must be in YYYYMMDDHH\\(MM\\) format \\(UTC\\).")
   with_mock_auth({
-    mockery::stub(KMAapiR::get_upper_air_mobile_temp_data, 'make_kma_request',
+    mockery::stub(KMAapiR::get_upper_air_mobile_temp_data, 'make_kma_request', 
                   function(base_url, params) {
                     expect_equal(base_url, "https://apihub.kma.go.kr/api/typ01/url/upp_mbl_temp.php")
                     expect_equal(params$authKey, "testmockkey_upper_air_fallback")
@@ -87,7 +87,7 @@ test_that("get_upper_air_raw_max_altitude works", {
   expect_error(KMAapiR::get_upper_air_raw_max_altitude(tm1 = "2023", tm2 = "20230102"), "Parameter 'tm1' must be in YYYYMMDD format.")
   expect_error(KMAapiR::get_upper_air_raw_max_altitude(tm1 = "20230101", tm2 = "2023010200"), "Parameter 'tm2' must be in YYYYMMDD format.")
   with_mock_auth({
-    mockery::stub(KMAapiR::get_upper_air_raw_max_altitude, 'make_kma_request',
+    mockery::stub(KMAapiR::get_upper_air_raw_max_altitude, 'make_kma_request', 
                   function(base_url, params) {
                     expect_equal(base_url, "https://apihub.kma.go.kr/api/typ01/url/upp_raw_max.php")
                     expect_equal(params$authKey, "testmockkey_upper_air_fallback")
@@ -101,7 +101,7 @@ test_that("get_upper_air_analysis_data works", {
   expect_error(KMAapiR::get_upper_air_analysis_data(tm1 = "20230101", tm2 = "202301020000"), "Parameter 'tm1' must be in YYYYMMDDHH\\(MM\\) format \\(UTC\\).")
   expect_error(KMAapiR::get_upper_air_analysis_data(tm1 = "2023010100", tm2 = "2023010200001"), "Parameter 'tm2' must be in YYYYMMDDHH\\(MM\\) format \\(UTC\\).")
   with_mock_auth({
-    mockery::stub(KMAapiR::get_upper_air_analysis_data, 'make_kma_request',
+    mockery::stub(KMAapiR::get_upper_air_analysis_data, 'make_kma_request', 
                   function(base_url, params) {
                     expect_equal(base_url, "https://apihub.kma.go.kr/api/typ01/url/upp_idx.php")
                     expect_equal(params$authKey, "testmockkey_upper_air_fallback")
@@ -118,7 +118,7 @@ test_upper_air_xml_json_service <- function(func_name_str, base_url_expected, re
   target_func <- eval(parse(text = qualified_func_name))
 
   # Test with XML
-  with_mock_auth({
+  with_mock_auth({ 
     call_args_xml <- c(list(page_no=1, num_of_rows=10, data_type="XML"), required_params, optional_params)
     mockery::stub(where = qualified_func_name, what = 'make_kma_request',
                   how = function(base_url, params) {
@@ -146,22 +146,22 @@ test_upper_air_xml_json_service <- function(func_name_str, base_url_expected, re
                   })
     expect_equal(do.call(target_func, call_args_json), "{\"json\":\"Mocked UpperAir JSON\"}")
   })
-
+  
   call_args_invalid_dt <- c(list(page_no=1, num_of_rows=10, data_type="TXT"), required_params, optional_params)
   expect_error(do.call(target_func, call_args_invalid_dt), "'data_type' must be 'XML' or 'JSON'.")
-
+  
   base_test_args <- c(list(page_no = 1, num_of_rows = 10, data_type = "XML"), optional_params)
 
   if("year" %in% names(required_params)) {
     invalid_year_args <- c(base_test_args, required_params)
-    invalid_year_args$year <- "23"
+    invalid_year_args$year <- "23" 
     expect_error(do.call(target_func, invalid_year_args), "'year' must be in YYYY format.")
   }
   if("month" %in% names(required_params)) {
-    invalid_month_args <- c(base_test_args, required_params)
-    invalid_month_args$month <- "1"
+    invalid_month_args <- c(base_test_args, required_params) 
+    invalid_month_args$month <- "1" 
     if (!("year" %in% names(invalid_month_args) && invalid_month_args$year == "23")) {
-        if (!("year" %in% names(invalid_month_args))) invalid_month_args$year <- "2023"
+        if (!("year" %in% names(invalid_month_args))) invalid_month_args$year <- "2023" 
     }
     expect_error(do.call(target_func, invalid_month_args), "'month' must be in MM format.")
   }
@@ -169,32 +169,32 @@ test_upper_air_xml_json_service <- function(func_name_str, base_url_expected, re
 
 # --- UppMtlyInfoService Tests ---
 test_that("get_upper_air_monthly_report_notes works", {
-  test_upper_air_xml_json_service("get_upper_air_monthly_report_notes",
-                            "https://apihub.kma.go.kr/api/typ02/openApi/UppMtlyInfoService/getNote",
+  test_upper_air_xml_json_service("get_upper_air_monthly_report_notes", 
+                            "https://apihub.kma.go.kr/api/typ02/openApi/UppMtlyInfoService/getNote", 
                             list(year="2023", month="01"))
 })
 test_that("get_upper_air_station_list_table works", {
-  test_upper_air_xml_json_service("get_upper_air_station_list_table",
-                            "https://apihub.kma.go.kr/api/typ02/openApi/UppMtlyInfoService/getUppLstTbl",
+  test_upper_air_xml_json_service("get_upper_air_station_list_table", 
+                            "https://apihub.kma.go.kr/api/typ02/openApi/UppMtlyInfoService/getUppLstTbl", 
                             list(year="2023", month="01"))
 })
 test_that("get_upper_air_std_isobaric_values works", {
-  test_upper_air_xml_json_service("get_upper_air_std_isobaric_values",
-                            "https://apihub.kma.go.kr/api/typ02/openApi/UppMtlyInfoService/getStdIsbrsfValue",
+  test_upper_air_xml_json_service("get_upper_air_std_isobaric_values", 
+                            "https://apihub.kma.go.kr/api/typ02/openApi/UppMtlyInfoService/getStdIsbrsfValue", 
                             list(year="2023", month="01"), list(station="47102"))
 })
 test_that("get_upper_air_max_wind_data works", {
-  test_upper_air_xml_json_service("get_upper_air_max_wind_data",
-                            "https://apihub.kma.go.kr/api/typ02/openApi/UppMtlyInfoService/getMaxWind",
-                            list(year="2023", month="01"), list(station="47102"))
+  test_upper_air_xml_json_service("get_upper_air_max_wind_data", 
+                            "https://apihub.kma.go.kr/api/typ02/openApi/UppMtlyInfoService/getMaxWind", 
+                            list(year="2023", month="01"), list(station="47102")) 
 })
 test_that("get_upper_air_temp_humidity_levels works", {
-  test_upper_air_xml_json_service("get_upper_air_temp_humidity_levels",
-                            "https://apihub.kma.go.kr/api/typ02/openApi/UppMtlyInfoService/getTaHmLevel",
+  test_upper_air_xml_json_service("get_upper_air_temp_humidity_levels", 
+                            "https://apihub.kma.go.kr/api/typ02/openApi/UppMtlyInfoService/getTaHmLevel", 
                             list(year="2023", month="01"), list(station="47102"))
 })
 test_that("get_upper_air_wind_levels works", {
-  test_upper_air_xml_json_service("get_upper_air_wind_levels",
-                            "https://apihub.kma.go.kr/api/typ02/openApi/UppMtlyInfoService/getWindLevel",
+  test_upper_air_xml_json_service("get_upper_air_wind_levels", 
+                            "https://apihub.kma.go.kr/api/typ02/openApi/UppMtlyInfoService/getWindLevel", 
                             list(year="2023", month="01"), list(station="47102"))
 })

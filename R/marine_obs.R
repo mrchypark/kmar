@@ -83,7 +83,7 @@ get_marine_monthly_report_notes <- function(page_no, num_of_rows, data_type, yea
   if (!data_type %in% c("XML", "JSON")) stop("'data_type' must be 'XML' or 'JSON'.", call. = FALSE)
   if (!grepl("^\d{4}$", year)) stop("'year' must be in YYYY format.", call. = FALSE)
   if (!grepl("^\d{2}$", month)) stop("'month' must be in MM format.", call. = FALSE)
-
+  
   base_url <- "https://apihub.kma.go.kr/api/typ02/openApi/SeaMtlyInfoService/getNote"
   params <- list(pageNo=page_no, numOfRows=num_of_rows, dataType=data_type, year=year, month=month)
   response <- make_kma_request(base_url, params)
@@ -211,7 +211,7 @@ get_marine_lhaws_monthly_summary2 <- function(page_no, num_of_rows, data_type, y
 }
 
 #' Get Daily Lighthouse AWS Data for a Specific Month
-#' @inheritParams get_marine_daily_buoy_data_for_month
+#' @inheritParams get_marine_daily_buoy_data_for_month 
 #' @export
 get_marine_daily_lhaws_data_for_month <- function(page_no, num_of_rows, data_type, year, month, station){
   if (!data_type %in% c("XML", "JSON")) stop("'data_type' must be 'XML' or 'JSON'.", call. = FALSE)
@@ -251,7 +251,7 @@ get_marine_wave_buoy_monthly_summary2 <- function(page_no, num_of_rows, data_typ
 }
 
 #' Get Daily Wave Buoy Data for a Specific Month
-#' @inheritParams get_marine_daily_buoy_data_for_month
+#' @inheritParams get_marine_daily_buoy_data_for_month 
 #' @export
 get_marine_daily_wave_buoy_data_for_month <- function(page_no, num_of_rows, data_type, year, month, station){
   if (!data_type %in% c("XML", "JSON")) stop("'data_type' must be 'XML' or 'JSON'.", call. = FALSE)
@@ -287,8 +287,8 @@ get_marine_daily_wave_buoy_data_for_month <- function(page_no, num_of_rows, data
 #' @param sel_ws 풍속단위 ("kh": km/h, "ms": m/s, maps to 'selWs' API parameter).
 #' @return Raw vector containing the binary image data.
 #' @export
-get_marine_spatial_chart <- function(proj, start_x, start_y, end_x, end_y,
-                                     zoom_lvl, tm, tm_st, map_type, grid,
+get_marine_spatial_chart <- function(proj, start_x, start_y, end_x, end_y, 
+                                     zoom_lvl, tm, tm_st, map_type, grid, 
                                      itv, data_dtl_cd, obs, stn, size, sel_ws) {
   # Basic validation for key parameters
   if (!grepl("^\d{12}$", tm)) {

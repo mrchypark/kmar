@@ -221,7 +221,7 @@ get_sfc_yearly_summary_info1 <- function(page_no, num_of_rows, data_type, year) 
   # Input validation
   if (!data_type %in% c("XML", "JSON")) stop("'data_type' must be 'XML' or 'JSON'.", call. = FALSE)
   if (!grepl("^\d{4}$", year)) stop("'year' must be in YYYY format.", call. = FALSE)
-
+  
   base_url <- "https://apihub.kma.go.kr/api/typ02/openApi/SfcYearlyInfoService/getYearSumry"
   params <- list(
     pageNo = page_no,
@@ -418,8 +418,8 @@ get_sfc_daily_weather_data_for_month <- function(page_no, num_of_rows, data_type
 #' @param gov Optional government agency code. Default "".
 #' @return Raw vector containing the binary image data.
 #' @export
-get_sfc_weather_phenomenon_chart <- function(obs_type, tm, val, stn, obj, map_type,
-                                             grid, legend, size, itv,
+get_sfc_weather_phenomenon_chart <- function(obs_type, tm, val, stn, obj, map_type, 
+                                             grid, legend, size, itv, 
                                              zoom_level, zoom_x, zoom_y, gov = "") {
   # Basic validation for key parameters
   if (!grepl("^\d{12}$", tm)) { # Corrected from YYYYMMDDHHMM to YYYYMMDDHH as per KMA docs for this endpoint

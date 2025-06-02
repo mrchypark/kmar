@@ -76,11 +76,11 @@ get_radar_composite_info <- function(tm, cmp, qcd, obs = NULL, acc = NULL, map_a
 get_radar_composite_data <- function(tm, cmp, qcd, obs, map_area = "HB", disp = "A", acc = NULL) {
   if (!grepl("^\d{10,12}$", tm)) stop("Parameter 'tm' must be in YYYYMMDDHH(MM) format.", call. = FALSE)
   if (missing(obs) || is.null(obs)) stop("Parameter 'obs' is required for data retrieval.", call. = FALSE)
-
+  
   base_url <- "https://apihub.kma.go.kr/api/typ01/cgi-bin/url/nph-rdr_cmp1_api"
   params <- list(tm=tm, cmp=cmp, qcd=qcd, obs=obs, acc=acc, map=map_area, disp=disp)
   response <- make_kma_request(base_url, params)
-
+  
   if (toupper(disp) == "B") {
     return(httr::content(response, as = "raw"))
   } else {

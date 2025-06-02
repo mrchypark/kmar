@@ -68,7 +68,7 @@ make_kma_request <- function(base_url, params = list(), timeout_seconds = 30) {
 
   # Filter out NULL parameters
   params <- Filter(Negate(is.null), params)
-
+  
   # Ensure all params are character or coercible to character
   # KMA API typically expects string parameters
   params <- lapply(params, as.character)
@@ -80,8 +80,8 @@ make_kma_request <- function(base_url, params = list(), timeout_seconds = 30) {
   }, error = function(e) {
     # Keep default version if package is not installed (common during dev)
   })
-  ua_string <- paste0("KMAapiR/", pkg_version,
-                      " (R ", getRversion(), "; https://github.com/your-username/KMAapiR)")
+  ua_string <- paste0("KMAapiR/", pkg_version, 
+                      " (R ", getRversion(), "; https://github.com/your-username/KMAapiR)") 
                       # Replace with actual repo URL later
 
   response <- httr::GET(

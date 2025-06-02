@@ -116,7 +116,7 @@ get_upper_air_monthly_report_notes <- function(page_no, num_of_rows, data_type, 
   if (!data_type %in% c("XML", "JSON")) stop("'data_type' must be 'XML' or 'JSON'.", call. = FALSE)
   if (!grepl("^\d{4}$", year)) stop("'year' must be in YYYY format.", call. = FALSE)
   if (!grepl("^\d{2}$", month)) stop("'month' must be in MM format.", call. = FALSE)
-
+  
   base_url <- "https://apihub.kma.go.kr/api/typ02/openApi/UppMtlyInfoService/getNote"
   params <- list(pageNo=page_no, numOfRows=num_of_rows, dataType=data_type, year=year, month=month)
   response <- make_kma_request(base_url, params)
